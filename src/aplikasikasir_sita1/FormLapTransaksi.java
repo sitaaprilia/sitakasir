@@ -17,13 +17,14 @@ public class FormLapTransaksi extends javax.swing.JFrame {
 Connection konek;
 PreparedStatement pst;
 ResultSet rst;
-String tanggal,tanggal2, sql;
+String tanggal,tanggal2,sql;
     /**
      * Creates new form FormLapTransaksi
      */
     public FormLapTransaksi() {
-        initComponents();
-        konek = Koneksi.koneksiDB();
+       initComponents();
+        this.setExtendedState(MAXIMIZED_BOTH);
+        konek=Koneksi.koneksiDB();
     }
 
     /**
@@ -213,11 +214,11 @@ String tanggal,tanggal2, sql;
 try {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     tanggal = format.format(SebelumTgl.getDate());
-    sql = "select * from penjualan where TanggalPenjualan < '"+tanggal+"'";
-    pst = konek.prepareStatement(sql);
-    rst = pst.executeQuery();
+    sql     = "select * from penjualan where TanggalPenjualan < '"+tanggal+"'";
+    pst     = konek.prepareStatement(sql);
+    rst     = pst.executeQuery();
     TblLapTransaksi.setModel(DbUtils.resultSetToTableModel(rst));
-} catch (Exception e) {
+} catch(Exception e){
     JOptionPane.showMessageDialog(null, "Data Tidak Tampil");
 }
         // TODO add your handling code here:
@@ -225,16 +226,16 @@ try {
 
     private void TblLapTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblLapTransaksiMouseClicked
 try {
-    int row = TblLapTransaksi.getSelectedRow();
-    String tabelKlik = (TblLapTransaksi.getModel().getValueAt(row, 1).toString());
-    String sql = "select 8 from detailpenjualan where DetailID=?";
-    pst = konek.prepareStatement(sql);
-    pst.setString(1,tabelKlik);
-    rst = pst.executeQuery();
-    TblDataProduk.setModel(DbUtils.resultSetToTableModel(rst));
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(null, e);
-}
+        int row = TblLapTransaksi.getSelectedRow();
+        String tabelKlik = (TblLapTransaksi.getModel().getValueAt(row, 1).toString());
+        String sql = "select * from detailpenjualan where DetailID = ?";
+        pst = konek.prepareStatement(sql);
+        pst.setString(1, tabelKlik);
+        rst = pst.executeQuery();
+        TblDataProduk.setModel(DbUtils.resultSetToTableModel(rst));
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
         // TODO add your handling code here:
     }//GEN-LAST:event_TblLapTransaksiMouseClicked
 
@@ -243,28 +244,28 @@ try {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     tanggal = format.format(SebelumTgl.getDate());
     tanggal2 = format.format(SampaiTgl.getDate());
-    sql = "select * from penjualan where TanggalPenjualan between '"+tanggal+"'and'"+tanggal2+"'";
-    pst = konek.prepareStatement(sql);
-    rst = pst.executeQuery();
+    sql     = "select * from penjualan where TanggalPenjualan between '"+tanggal+"' and '"+tanggal2+"'";
+    pst     = konek.prepareStatement(sql);
+    rst     = pst.executeQuery();
     TblLapTransaksi.setModel(DbUtils.resultSetToTableModel(rst));
-} catch (Exception e) {
+} catch(Exception e){
     JOptionPane.showMessageDialog(null, "Data Tidak Tampil");
 }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCari1ActionPerformed
 
     private void btnCari2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCari2ActionPerformed
-try {
+ try {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    tanggal = format.format(SebelumTgl.getDate());
-    sql = "select * from penjualan where TanggalPenjualan > '"+tanggal+"'";
-    pst = konek.prepareStatement(sql);
-    rst = pst.executeQuery();
+    tanggal = format.format(SetelahTgl.getDate());
+    sql     = "select * from penjualan where TanggalPenjualan > '"+tanggal+"'";
+    pst     = konek.prepareStatement(sql);
+    rst     = pst.executeQuery();
     TblLapTransaksi.setModel(DbUtils.resultSetToTableModel(rst));
-} catch (Exception e) {
+} catch(Exception e){
     JOptionPane.showMessageDialog(null, "Data Tidak Tampil");
 }
-        // TODO add your handling code here:
+           // TODO add your handling code here:
     }//GEN-LAST:event_btnCari2ActionPerformed
 
     /**
